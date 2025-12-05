@@ -12,18 +12,8 @@ avail = [int(r.strip()) for r in split2.split("\n")]
 def merge_intervals(x, y):
     a, b = x 
     u, v = y 
-
-    # a +----- + b   . . . . u +------+ v   
     if b < u: return [(a, b), (u, v)]
-
-    # u +----- + v   . . . . a +------+ b
-    if v < a: return [(u, v), (a, b)]
-
-    """"
-        a +----------------+ b 
-    u +----------+ v 
-    """
-    return [(min(a, u), max(b, v))]
+    return [(a, max(b, v))] 
 
 ranges = sorted(ranges, key=lambda x: x[0])
 merged = [ranges[0]]
@@ -33,6 +23,7 @@ for interval in ranges[1:]:
         merged[-1] = res[0]
     else:
         merged.append(interval)
+
 c = 0
 for s in merged:
     c+= s[1]-s[0] + 1
